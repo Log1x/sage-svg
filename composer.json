@@ -2,7 +2,7 @@
   "name": "log1x/sage-svg",
   "type": "package",
   "license": "MIT",
-  "description": "A simple package for handling inline SVG's in Sage 10 projects.",
+  "description": "A simple package for using inline SVG's in Sage 10 projects.",
   "authors": [
     {
       "name": "Brandon Nifong",

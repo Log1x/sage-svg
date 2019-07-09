@@ -3,7 +3,7 @@
 [![Latest Stable Version](https://poser.pugx.org/log1x/sage-svg/v/stable)](https://packagist.org/packages/log1x/sage-svg) 
 [![Total Downloads](https://poser.pugx.org/log1x/sage-svg/downloads)](https://packagist.org/packages/log1x/sage-svg)
 
-Sage SVG is a simple package for handling inline SVG's in your Sage 10 projects. 
+Sage SVG is a simple package for using inline SVG's in your Sage 10 projects. 
 
 ## Requirements
 
@@ -25,15 +25,15 @@ By default, the following paths are checked for your SVG (in order):
 
 - If passed an array containing `id`, it is assumed to be a WordPress attachment and is ran through [`get_attached_file()`](https://codex.wordpress.org/Function_Reference/get_attached_file).
 - Your default asset manifest (usually `mix-manifest.json`).
-- Path relative to `config('svg.path')` which is `public_path()` (`dist/`) by default.
+- Path relative to `config('svg.path')` which is `public_path()` by default.
 - Absolute web root path.
 
-### Blade directive
+### Blade Directive
 
 Unless you require advance functionality from somewhere such as a Controller, the best way to use Sage SVG is with the Blade directive straight in your templates.
 
 ```php
-# Relative path (with dot notation)
+# Relative path (with dot notation) – resolves to `app/themes/<your theme>/dist/images/logo.svg` by default
 @svg('images.logo')
 
 # Absolute path from webroot with `w-32 h-auto` CSS classes and an aria-label
