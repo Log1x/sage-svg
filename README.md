@@ -3,7 +3,7 @@
 [![Latest Stable Version](https://poser.pugx.org/log1x/sage-svg/v/stable)](https://packagist.org/packages/log1x/sage-svg) 
 [![Total Downloads](https://poser.pugx.org/log1x/sage-svg/downloads)](https://packagist.org/packages/log1x/sage-svg)
 
-Sage SVG is a simple package for using inline SVG's in your Sage 10 projects. 
+Sage SVG is a simple package for using inline SVGs in your Sage 10 projects. 
 
 ## Requirements
 
@@ -63,6 +63,7 @@ $image = get_svg(
 While it's easier to use the Helper function, if it not available or sane for your scenario, you can render your SVG using the initialized `SageSvg` instance from the app container.
 
 ```php
+use Log1x\SageSvg\SageSvg;
 use function Roots\app;
 
 $image = app(SageSvg::class)->render('images.logo');
@@ -85,7 +86,7 @@ You can read the DocBlocks in `config/svg.php` for more details.
 While I do have my fork of [Blade SVG](https://github.com/adamwathan/blade-sage-svg) called [Blade SVG Sage](https://github.com/log1x/blade-svg-sage), I find it rather underwhelming due to the following reasons:
 
 - Unable to handle WordPress attachments
-- Unable to inline SVG's that aren't set in a specific path
+- Unable to inline SVGs that aren't set in a specific path
 - Unable to properly use the asset manifest.
 - I know QWp6t
 
