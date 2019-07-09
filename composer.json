@@ -1,0 +1,38 @@
+{
+  "name": "log1x/sage-svg",
+  "type": "package",
+  "license": "MIT",
+  "description": "A simple package for handling inline SVG's in Sage 10 projects.",
+  "authors": [
+    {
+      "name": "Brandon Nifong",
+      "email": "brandon@tendency.me"
+    }
+  ],
+  "keywords": [
+    "wordpress",
+    "sage",
+    "svg"
+  ],
+  "support": {
+    "issues": "https://github.com/log1x/sage-svg/issues"
+  },
+  "autoload": {
+    "psr-4": {
+      "Log1x\\SageSvg\\": "src/"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
+  },
+  "require": {
+    "php": ">=7.1.3"
+  },
+  "extra": {
+    "acorn": {
+      "providers": [
+        "Log1x\\SageSvg\\SageSvgServiceProvider"
+      ]
+    }
+  }
+}
