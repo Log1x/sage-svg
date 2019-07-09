@@ -83,7 +83,7 @@ You can read the DocBlocks in `config/svg.php` for more details.
 
 > Didn't you author Blade SVG Sage? Why another SVG package?
 
-While I do have my fork of [Blade SVG](https://github.com/adamwathan/blade-sage-svg) called [Blade SVG Sage](https://github.com/log1x/blade-svg-sage), I find it rather underwhelming due to the following reasons:
+While I do have my fork of [Blade SVG](https://github.com/adamwathan/blade-svg) called [Blade SVG Sage](https://github.com/log1x/blade-svg-sage), I find it rather underwhelming due to the following reasons:
 
 - Unable to handle WordPress attachments
 - Unable to inline SVGs that aren't set in a specific path
