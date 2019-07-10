@@ -1,6 +1,6 @@
 <?php
 
-use function Roots\public_path;
+use function Roots\base_path;
 
 return [
 
@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'path' => public_path(),
+    'path' => base_path('dist'),
 
     /*
     |--------------------------------------------------------------------------
