@@ -18,7 +18,7 @@ class SageSvgServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(Svg::class, function () {
+        $this->app->singleton(SvgSvg::class, function () {
             return new SageSvg($this->config());
         });
     }
