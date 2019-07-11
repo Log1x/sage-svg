@@ -6,7 +6,7 @@ use Roots\Acorn\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 
 use function Roots\config;
-use function Roots\public_path;
+use function Roots\base_path;
 use function Roots\config_path;
 
 class SageSvgServiceProvider extends ServiceProvider
@@ -18,7 +18,7 @@ class SageSvgServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(Svg::class, function () {
+        $this->app->singleton(SageSvg::class, function () {
             return new SageSvg($this->config());
         });
     }
@@ -43,9 +43,9 @@ class SageSvgServiceProvider extends ServiceProvider
      */
     protected function config()
     {
-        return collect(config('svg', []))->merge([
-            'path' => public_path(),
-        ])->all();
+        return collect(['path' => base_path('dist')])
+            ->merge(config('svg', []))
+            ->all();
     }
 
     /**
