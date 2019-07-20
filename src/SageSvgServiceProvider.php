@@ -5,10 +5,6 @@ namespace Log1x\SageSvg;
 use Roots\Acorn\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 
-use function Roots\config;
-use function Roots\base_path;
-use function Roots\config_path;
-
 class SageSvgServiceProvider extends ServiceProvider
 {
    /**
@@ -32,7 +28,7 @@ class SageSvgServiceProvider extends ServiceProvider
     {
         $this->directives();
         $this->publishes([
-            __DIR__ . '/../config/svg.php' => config_path('svg.php')
+            __DIR__ . '/../config/svg.php' => $this->app->configPath('svg.php')
         ]);
     }
 
@@ -43,9 +39,11 @@ class SageSvgServiceProvider extends ServiceProvider
      */
     protected function config()
     {
-        return collect(['path' => base_path('dist')])
-            ->merge(config('svg', []))
-            ->all();
+        return collect([
+            'path' => $this->app->basePath('dist')
+        ])
+        ->merge($this->app->config->get('svg', []))
+        ->all();
     }
 
     /**
