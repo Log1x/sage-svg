@@ -1,6 +1,7 @@
 # Sage SVG
 
-[![Latest Stable Version](https://poser.pugx.org/log1x/sage-svg/v/stable)](https://packagist.org/packages/log1x/sage-svg) 
+[![Latest Stable Version](https://poser.pugx.org/log1x/sage-svg/v/stable)](https://packagist.org/packages/log1x/sage-svg)
+![CircleCI](https://img.shields.io/circleci/build/gh/Log1x/sage-svg.svg?style=flat-square)
 [![Total Downloads](https://poser.pugx.org/log1x/sage-svg/downloads)](https://packagist.org/packages/log1x/sage-svg)
 
 Sage SVG is a simple package for using inline SVGs in your Sage 10 projects. 
