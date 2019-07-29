@@ -37,7 +37,7 @@ class SageSvg
     {
         $this->config = collect($this->config)->merge($config);
         $this->cache = collect();
-        $this->files = new Filesystem;
+        $this->files = new Filesystem();
     }
 
     /**
