@@ -33,7 +33,7 @@
   },
   "scripts": {
     "lint": [
-      "phpcs --ignore=vendor,tests --extensions=php --standard=PSR12 ."
+      "phpcs --ignore=vendor --extensions=php --standard=PSR12 ."
     ]
   },
   "extra": {
