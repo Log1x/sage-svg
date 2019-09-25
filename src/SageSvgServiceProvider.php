@@ -29,6 +29,7 @@ class SageSvgServiceProvider extends ServiceProvider
         if ($this->app->bound('blade.compiler')) {
             $this->directives();
         }
+        
         $this->publishes([
             __DIR__ . '/../config/svg.php' => $this->app->configPath('svg.php')
         ]);
