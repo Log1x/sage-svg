@@ -3,6 +3,7 @@
 namespace Log1x\SageSvg;
 
 use Roots\Acorn\ServiceProvider;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 
 class SageSvgServiceProvider extends ServiceProvider
@@ -29,7 +30,7 @@ class SageSvgServiceProvider extends ServiceProvider
         if ($this->app->bound('blade.compiler')) {
             $this->directives();
         }
-        
+
         $this->publishes([
             __DIR__ . '/../config/svg.php' => $this->app->configPath('svg.php')
         ]);
@@ -62,6 +63,20 @@ class SageSvgServiceProvider extends ServiceProvider
 
         Blade::directive('svg', function ($expression) {
             return "<?php echo e(get_svg($expression)); ?>";
+        });
+
+        if (! $directives = $this->config()['directives']) {
+            return;
+        }
+
+        Collection::make($directives)->each(function ($path, $directive) {
+            Blade::directive($directive, function ($expression) use ($path) {
+                $parts = Collection::make(explode(',', $expression))->toArray();
+                $parts[0] = printf("'%s.%s'", $path, str_replace("'", "", $parts[0]));
+                $expression = Collection::make($parts)->implode(',');
+
+                return "<?php echo e(get_svg($customExpression)); ?>";
+            });
         });
     }
 }
