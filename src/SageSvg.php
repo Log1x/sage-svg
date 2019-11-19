@@ -24,7 +24,8 @@ class SageSvg
      */
     protected $config = [
         'path' => '',
-        'class' => ''
+        'class' => '',
+        'directives' => '',
     ];
 
     /**
