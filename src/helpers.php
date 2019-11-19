@@ -1,10 +1,7 @@
 <?php
 
-/**
- * Helpers
- */
-
 use Log1x\SageSvg\SageSvg;
+
 use function Roots\app;
 
 /**

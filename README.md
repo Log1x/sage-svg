@@ -9,7 +9,7 @@ Sage SVG is a simple package for using inline SVGs in your Sage 10 projects.
 ## Requirements
 
 - [Sage](https://github.com/roots/sage) >= 10.0
-- [PHP](https://secure.php.net/manual/en/install.php) >= 7.1.3
+- [PHP](https://secure.php.net/manual/en/install.php) >= 7.2
 - [Composer](https://getcomposer.org/download/)
 
 ## Installation
