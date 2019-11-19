@@ -75,7 +75,7 @@ class SageSvgServiceProvider extends ServiceProvider
                 $parts[0] = printf("'%s.%s'", $path, str_replace("'", "", $parts[0]));
                 $expression = Collection::make($parts)->implode(',');
 
-                return "<?php echo e(get_svg($customExpression)); ?>";
+                return "<?php echo e(get_svg($expression)); ?>";
             });
         });
     }
