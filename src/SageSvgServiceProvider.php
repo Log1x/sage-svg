@@ -65,11 +65,11 @@ class SageSvgServiceProvider extends ServiceProvider
             return "<?php echo e(get_svg($expression)); ?>";
         });
 
-        if(!$customDirectives = $this->config()['directives']) {
+        if(! $customDirectives = $this->config()['directives']) {
             return;
         }
 
-        Collection::make($this->config()['directives'])->each(function ($path, $directive) {
+        Collection::make($customDirectives)->each(function ($path, $directive) {
             Blade::directive($directive, function ($expression) use ($path) {
                 $parts = Collection::make(explode(',', $expression))->toArray();
                 $parts[0] = printf("'%s.%s'", $path, str_replace("'", "", $parts[0]));
