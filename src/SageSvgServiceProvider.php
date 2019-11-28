@@ -3,7 +3,6 @@
 namespace Log1x\SageSvg;
 
 use Roots\Acorn\ServiceProvider;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 
 class SageSvgServiceProvider extends ServiceProvider
@@ -29,7 +28,7 @@ class SageSvgServiceProvider extends ServiceProvider
     {
         if ($this->app->bound('blade.compiler')) {
             $this->directives();
-            $this->consumerDirectives();
+            $this->customDirectives();
         }
 
         $this->publishes([
@@ -68,27 +67,29 @@ class SageSvgServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register consumer-defined directives.
+     * Register custom Blade directives.
      *
      * @return void
      */
-    protected function consumerDirectives()
+    protected function customDirectives()
     {
         if (class_exists('\BladeSvgSage\BladeSvgSage') || class_exists('\BladeSvg\SvgFactory')) {
             return;
         }
 
-        if(($directives = Collection::make($this->app->config->get('svg.directives')))->isEmpty()) {
+        if ($directives = collect($this->app->config->get('svg.directives')))->isEmpty()) {
             return;
         }
 
         $directives->each(function ($path, $directive) {
             Blade::directive($directive, function ($expression) use ($path) {
-                $parts = Collection::make(explode(',', $expression));
-                $file = str_replace("'", "", $parts->first());
+                $expression = collect(explode(',', $expression));
 
-                $parts[0] = sprintf("'%s.%s'", $path, $file);
-                $expression = $parts->implode(',');
+                $expression = $expression->put(0, sprintf(
+                    "'%s.%s'",
+                    $path,
+                    str_replace("'", '', $expression->first())
+                ))->implode(',');
 
                 return "<?php echo e(get_svg($expression)); ?>";
             });
