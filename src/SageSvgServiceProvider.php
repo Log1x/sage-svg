@@ -77,7 +77,7 @@ class SageSvgServiceProvider extends ServiceProvider
             return;
         }
 
-        if ($directives = collect($this->app->config->get('svg.directives')))->isEmpty()) {
+        if ($directives = collect($this->app->config->get('svg.directives'))->isEmpty()) {
             return;
         }
 
