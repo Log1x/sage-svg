@@ -3,7 +3,6 @@
 namespace Log1x\SageSvg;
 
 use Roots\Acorn\ServiceProvider;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 
 class SageSvgServiceProvider extends ServiceProvider
@@ -29,6 +28,7 @@ class SageSvgServiceProvider extends ServiceProvider
     {
         if ($this->app->bound('blade.compiler')) {
             $this->directives();
+            $this->customDirectives();
         }
 
         $this->publishes([
@@ -64,18 +64,34 @@ class SageSvgServiceProvider extends ServiceProvider
         Blade::directive('svg', function ($expression) {
             return "<?php echo e(get_svg($expression)); ?>";
         });
+    }
 
-        if (! $directives = $this->config()['directives']) {
+    /**
+     * Register custom Blade directives.
+     *
+     * @return void
+     */
+    protected function customDirectives()
+    {
+        if (class_exists('\BladeSvgSage\BladeSvgSage') || class_exists('\BladeSvg\SvgFactory')) {
             return;
         }
 
-        Collection::make($directives)->each(function ($path, $directive) {
-            Blade::directive($directive, function ($expression) use ($path) {
-                $parts = Collection::make(explode(',', $expression))->toArray();
-                $parts[0] = printf("'%s.%s'", $path, str_replace("'", "", $parts[0]));
-                $expression = Collection::make($parts)->implode(',');
+        if ($directives = collect($this->app->config->get('svg.directives')))->isEmpty()) {
+            return;
+        }
 
-                return "<?php echo e(get_svg($customExpression)); ?>";
+        $directives->each(function ($path, $directive) {
+            Blade::directive($directive, function ($expression) use ($path) {
+                $expression = collect(explode(',', $expression));
+
+                $expression = $expression->put(0, sprintf(
+                    "'%s.%s'",
+                    $path,
+                    str_replace("'", '', $expression->first())
+                ))->implode(',');
+
+                return "<?php echo e(get_svg($expression)); ?>";
             });
         });
     }
