@@ -26,6 +26,7 @@ class SageSvg
         'path' => '',
         'class' => '',
         'directives' => '',
+        'attributes' => [],
     ];
 
     /**
@@ -161,6 +162,8 @@ class SageSvg
      */
     protected function buildAttributes($attrs = [])
     {
+        $attrs = array_merge($this->config->get('attributes'), $attrs);
+        
         if (empty($attrs)) {
             return '';
         }
