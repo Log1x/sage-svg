@@ -31,6 +31,20 @@ return [
     'class' => '',
 
     /*
+	|--------------------------------------------------------------------------
+	| Attributes
+	|--------------------------------------------------------------------------
+	|
+	| This array defines the default SVG attributes.
+	| You can overwrite them via third parameter and can be used to set
+	| attributes such as ['stroke-width' => '1.5'] to all SVGs.
+	|
+	*/
+
+    'attributes' => array(
+    ),
+
+    /*
     |--------------------------------------------------------------------------
     | Directives
     |--------------------------------------------------------------------------
