@@ -35,14 +35,14 @@ return [
 	| Attributes
 	|--------------------------------------------------------------------------
 	|
-	| This array defines the default SVG attributes.
-	| You can overwrite them via third parameter and can be used to set
-	| attributes such as ['stroke-width' => '1.5'] to all SVGs.
+    | Here you can specify default attributes to be added on all inlined SVGs.
+    |   ↪ <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute>
 	|
 	*/
 
-    'attributes' => array(
-    ),
+    'attributes' => [
+        // 'stroke-width' => '1.5',
+    ],
 
     /*
     |--------------------------------------------------------------------------
