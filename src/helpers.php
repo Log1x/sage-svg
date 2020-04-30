@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Sage SVG Helpers
+ */
+
 use Log1x\SageSvg\SageSvg;
 
 use function Roots\app;
@@ -12,6 +16,7 @@ use function Roots\app;
  * @param  array        $attrs
  * @return string
  */
+
 if (! function_exists('get_svg')) {
     function get_svg($image, $class = '', $attrs = [])
     {
