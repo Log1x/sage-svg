@@ -24,7 +24,7 @@ $ composer require log1x/sage-svg
 
 By default, the following paths are checked for your SVG (in order):
 
-- If passed an array containing `id`, it is assumed to be a WordPress attachment and is ran through [`get_attached_file()`](https://codex.wordpress.org/Function_Reference/get_attached_file).
+- If passed an array containing `id`, it is assumed to be a WordPress attachment and is ran through [`get_attached_file()`](https://developer.wordpress.org/reference/functions/get_attached_file).
 - Your default asset manifest (usually `mix-manifest.json`).
 - Path relative to `config('svg.path')` which is `public_path()` by default.
 - Absolute web root path.
