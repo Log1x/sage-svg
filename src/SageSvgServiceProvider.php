@@ -44,7 +44,7 @@ class SageSvgServiceProvider extends ServiceProvider
     protected function config()
     {
         return collect([
-            'path' => $this->app->basePath('dist')
+            'path' => $this->app->publicPath()
         ])
         ->merge($this->app->config->get('svg', []))
         ->all();

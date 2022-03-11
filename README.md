@@ -1,7 +1,7 @@
 # Sage SVG
 
 [![Latest Stable Version](https://poser.pugx.org/log1x/sage-svg/v/stable)](https://packagist.org/packages/log1x/sage-svg)
-![CircleCI](https://img.shields.io/circleci/build/gh/Log1x/sage-svg.svg?style=flat-square)
+![Build Status](https://img.shields.io/github/workflow/status/log1x/sage-svg/Main?style=flat-square)
 [![Total Downloads](https://poser.pugx.org/log1x/sage-svg/downloads)](https://packagist.org/packages/log1x/sage-svg)
 
 Sage SVG is a simple package for using inline SVGs in your Sage 10 projects.
@@ -9,7 +9,7 @@ Sage SVG is a simple package for using inline SVGs in your Sage 10 projects.
 ## Requirements
 
 - [Sage](https://github.com/roots/sage) >= 10.0
-- [PHP](https://secure.php.net/manual/en/install.php) >= 7.2.5
+- [PHP](https://secure.php.net/manual/en/install.php) >= 7.4
 - [Composer](https://getcomposer.org/download/)
 
 ## Installation
