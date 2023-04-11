@@ -1,7 +1,5 @@
 <?php
 
-use function Roots\public_path;
-
 return [
 
     /*
@@ -13,9 +11,11 @@ return [
     | This path is then resolved internally if an absolute path is not being
     | used.
     |
+    | Example: Icons are in web/app/themes/theme_name/resources/images/icons/
+    | Base Path: base_path('resources/images/icons'),
     */
 
-    'path' => public_path(),
+    'path' => base_path(),
 
     /*
     |--------------------------------------------------------------------------
