@@ -38,7 +38,6 @@ class SageSvg
     public function __construct($config = [])
     {
         $this->config = collect($this->config)->merge($config);
-        $this->cache = collect();
         $this->files = new Filesystem();
     }
 
