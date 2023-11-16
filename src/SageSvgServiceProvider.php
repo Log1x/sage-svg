@@ -2,7 +2,7 @@
 
 namespace Log1x\SageSvg;
 
-use Roots\Acorn\ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 
 class SageSvgServiceProvider extends ServiceProvider
