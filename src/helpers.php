@@ -18,8 +18,8 @@ use function Roots\app;
  */
 
 if (! function_exists('get_svg')) {
-    function get_svg($image, $class = '', $attrs = [])
+    function get_svg($image, $class = '', $attrs = [], $id_prefix = '')
     {
-        return app(SageSvg::class)->render($image, $class, $attrs);
+        return app(SageSvg::class)->render($image, $class, $attrs, $id_prefix);
     }
 }
