@@ -47,10 +47,15 @@ class SageSvg
      * @param  string       $image
      * @param  string|array $class
      * @param  array        $attrs
+     * @param  array        $options
      * @return \Illuminate\Support\HtmlString
      */
-    public function render($image, $class = '', $attrs = [])
+    public function render($image, $class = '', $attrs = [], $options = [])
     {
+        $options = collect([
+            'idPrefix' => null,
+        ])->merge($options);
+
         if (is_array($class)) {
             $class = implode(' ', $class);
         }
@@ -59,15 +64,23 @@ class SageSvg
             'class' => $this->buildClass($class)
         ])->filter()->all();
 
-        return new HtmlString(
-            str_replace(
-                '<svg',
-                sprintf('<svg%s', $this->buildAttributes($attrs)),
-                $this->get(
-                    $this->prepare($image)
-                )
+        $svg = str_replace(
+            '<svg',
+            sprintf('<svg%s', $this->buildAttributes($attrs)),
+            $this->get(
+                $this->prepare($image)
             )
         );
+
+        if ($options->get('idPrefix')) {
+            $svg = preg_replace(
+                '/(id=[\'"]|url\([\'"]?#|href=["\']#)(.*?)([\'"])/m',
+                "$1{$options->get('idPrefix')}-$2$3",
+                $svg
+            );
+        }
+
+        return new HtmlString($svg);
     }
 
     /**
