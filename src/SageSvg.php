@@ -75,7 +75,7 @@ class SageSvg
         if ($options->get('idPrefix')) {
             $svg = preg_replace(
                 '/(id=[\'"]|url\([\'"]?#|href=["\']#)(.*?)([\'"])/m',
-                '$1$2$3',
+                "$1{$options->get('idPrefix')}-$2$3",
                 $svg
             );
         }
