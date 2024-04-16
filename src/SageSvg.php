@@ -78,11 +78,12 @@ class SageSvg
      */
     protected function get($image)
     {
-        $manifests = app('config')->get('assets.manifests');
-        foreach ($manifests as $manifest_key => $manifest) {
-            if (asset($image, $manifest_key)->exists()) {
+        $manifests = config('assets.manifests');
+
+        foreach ($manifests as $key => $value) {
+            if (asset($image, $key)->exists()) {
                 return trim(
-                    asset($image, $manifest_key)->contents()
+                    asset($image, $key)->contents()
                 );
             }
         }
