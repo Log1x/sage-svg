@@ -2,90 +2,60 @@
 
 namespace Log1x\SageSvg;
 
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
-use Illuminate\Filesystem\Filesystem;
+use Throwable;
 
 use function Roots\asset;
 
 class SageSvg
 {
     /**
-     * Files
-     *
-     * @var \Illuminate\Filesystem\Filesystem
+     * The asset manifests.
      */
-    protected $files;
+    protected array $manifests;
 
     /**
-     * Config
-     *
-     * @var array
+     * Create a new Sage SVG instance.
      */
-    protected $config = [
-        'path' => '',
-        'class' => '',
-        'directives' => '',
-        'attributes' => [],
-    ];
-
-    /**
-     * Initialize SVG
-     *
-     * @param  array $config
-     * @return void
-     */
-    public function __construct($config = [])
+    public function __construct(protected Filesystem $files)
     {
-        $this->config = collect($this->config)->merge($config);
-        $this->files = new Filesystem();
+        $this->manifests = config('assets.manifests');
     }
 
     /**
      * Render the SVG as HTML
-     *
-     * @param  string       $image
-     * @param  string|array $class
-     * @param  array        $attrs
-     * @return \Illuminate\Support\HtmlString
      */
-    public function render($image, $class = '', $attrs = [])
+    public function render(string $image, string|array $class = '', array $attrs = []): string
     {
         if (is_array($class)) {
             $class = implode(' ', $class);
         }
 
         $attrs = collect($attrs)->merge([
-            'class' => $this->buildClass($class)
+            'class' => $this->buildClass($class),
         ])->filter()->all();
 
         return new HtmlString(
             str_replace(
                 '<svg',
                 sprintf('<svg%s', $this->buildAttributes($attrs)),
-                $this->get(
-                    $this->prepare($image)
+                $this->getContents(
+                    $this->resolvePath($image)
                 )
             )
         );
     }
 
     /**
-     * Get SVG from Filesystem
-     *
-     * @param  string|array $image
-     * @return mixed
+     * Retrieve the SVG contents from the filesystem.
      */
-    protected function get($image)
+    protected function getContents(string $image): string
     {
-        $manifests = config('assets.manifests');
-
-        foreach ($manifests as $key => $value) {
-            if (asset($image, $key)->exists()) {
-                return trim(
-                    asset($image, $key)->contents()
-                );
-            }
+        if ($svg = $this->asset($image)) {
+            return trim($svg);
         }
 
         if ($this->files->exists($image)) {
@@ -104,12 +74,33 @@ class SageSvg
     }
 
     /**
-     * Return a prepared SVG image path.
-     *
-     * @param  string|array $image
-     * @return string
+     * Retrieve an asset depending on the manifest type.
      */
-    protected function prepare($image)
+    protected function asset(string $image): ?string
+    {
+        foreach ($this->manifests as $key => $value) {
+            $bundle = $value['bundles'] ?? null;
+
+            if (Str::endsWith($bundle, 'build/manifest.json')) {
+                try {
+                    return Vite::content(Str::of($image)->ltrim('/')->start('resources/')->__toString());
+                } catch (Throwable) {
+                    //
+                }
+            }
+
+            if (asset($image, $key)->exists()) {
+                return asset($image, $key)->contents();
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Resolve the specified image path.
+     */
+    protected function resolvePath(string|array $image): string
     {
         if (is_array($image) && ! empty($image['id'])) {
             return get_attached_file($image['id']);
@@ -134,47 +125,62 @@ class SageSvg
     }
 
     /**
-     * Return the passed string alongside the config path.
-     *
-     * @param  string $image
-     * @return string
+     * Retrieve the path.
      */
-    protected function withPath($image)
+    protected function getPath(): string
     {
-        return Str::finish($this->config->get('path'), '/') . $image;
+        return Str::finish(config('svg.path', public_path()), '/');
     }
 
     /**
-     * Build CSS Classes
-     *
-     * @param  string $class
-     * @return string
+     * Prepend the path to the image.
      */
-    protected function buildClass($class)
+    protected function withPath(string $image): string
+    {
+        return "{$this->getPath()}{$image}";
+    }
+
+    /**
+     * Retrieve the default classes.
+     */
+    protected function getDefaultClasses(): string
+    {
+        return config('svg.class', '');
+    }
+
+    /**
+     * Build the class attribute.
+     */
+    protected function buildClass(string $class): string
     {
         return trim(
-            sprintf('%s %s', $this->config->get('class'), $class)
+            sprintf('%s %s', $this->getDefaultClasses(), $class)
         );
     }
 
     /**
-     * Build element attributes.
-     *
-     * @param  array $attrs
-     * @return string
+     * Retrieve the attributes.
      */
-    protected function buildAttributes($attrs = [])
+    protected function getAttributes(): array
+    {
+        return config('svg.attributes', []);
+    }
+
+    /**
+     * Build the attributes.
+     */
+    protected function buildAttributes(array $attrs = []): string
     {
         $attrs = array_merge(
-            $this->config->get('attributes', []),
+            $this->getAttributes(),
             $attrs
         );
 
-        if (empty($attrs)) {
+        if (! $attrs) {
             return '';
         }
 
-        return ' ' . collect($attrs)->map(function ($value, $attr) {
+        return ' '.collect($attrs)->map(function ($value, $attr) {
             if (is_int($attr)) {
                 return $value;
             }
