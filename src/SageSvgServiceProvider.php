@@ -15,6 +15,7 @@ class SageSvgServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(SageSvg::class, fn () => new SageSvg($this->app->make('files')));
+        $this->app->alias(SageSvg::class, 'sage-svg');
     }
 
     /**

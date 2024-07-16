@@ -36,7 +36,10 @@
     "acorn": {
       "providers": [
         "Log1x\\SageSvg\\SageSvgServiceProvider"
-      ]
+      ],
+      "aliases": {
+        "SageSvg": "Log1x\\SageSvg\\Facades\\SageSvg"
+      }
     }
   }
 }
