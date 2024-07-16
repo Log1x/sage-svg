@@ -28,8 +28,12 @@ class SageSvg
     /**
      * Render the SVG as HTML
      */
-    public function render(string $image, string|array $class = '', array $attrs = []): string
+    public function render(string $image, string|array $class = '', array $attrs = [], array $options = []): string
     {
+        $options = collect([
+            'idPrefix' => null,
+        ])->merge($options);
+
         if (is_array($class)) {
             $class = implode(' ', $class);
         }
@@ -38,15 +42,23 @@ class SageSvg
             'class' => $this->buildClass($class),
         ])->filter()->all();
 
-        return new HtmlString(
-            str_replace(
-                '<svg',
-                sprintf('<svg%s', $this->buildAttributes($attrs)),
-                $this->getContents(
-                    $this->resolvePath($image)
-                )
+        $svg = str_replace(
+            '<svg',
+            sprintf('<svg%s', $this->buildAttributes($attrs)),
+            $this->getContents(
+                $this->resolvePath($image)
             )
         );
+
+        if ($options->get('idPrefix')) {
+            $svg = preg_replace(
+                '/(id=[\'"]|url\([\'"]?#|href=["\']#)(.*?)([\'"])/m',
+                "$1{$options->get('idPrefix')}-$2$3",
+                $svg
+            );
+        }
+
+        return new HtmlString($svg);
     }
 
     /**
