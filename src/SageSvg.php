@@ -180,12 +180,8 @@ class SageSvg
             return '';
         }
 
-        return ' '.collect($attrs)->map(function ($value, $attr) {
-            if (is_int($attr)) {
-                return $value;
-            }
-
-            return sprintf('%s="%s"', $attr, $value);
-        })->implode(' ');
+        return ' '.collect($attrs)
+            ->map(fn ($value, $attr) => is_int($attr) ? $value : sprintf('%s="%s"', $attr, $value))
+            ->implode(' ');
     }
 }
