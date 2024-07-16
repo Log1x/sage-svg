@@ -34,9 +34,9 @@ class SageSvg
             'idPrefix' => null,
         ])->merge($options);
 
-        if (is_array($class)) {
-            $class = implode(' ', $class);
-        }
+        $class = is_array($class)
+            ? implode(' ', $class)
+            : $class;
 
         $attrs = collect($attrs)->merge([
             'class' => $this->buildClass($class),
@@ -50,10 +50,10 @@ class SageSvg
             )
         );
 
-        if ($options->get('idPrefix')) {
+        if ($idPrefix = $options->get('idPrefix')) {
             $svg = preg_replace(
                 '/(id=[\'"]|url\([\'"]?#|href=["\']#)(.*?)([\'"])/m',
-                "$1{$options->get('idPrefix')}-$2$3",
+                "$1{$idPrefix}-$2$3",
                 $svg
             );
         }
