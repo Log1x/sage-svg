@@ -2,21 +2,20 @@
 
 namespace Log1x\SageSvg;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\ServiceProvider;
 
 class SageSvgServiceProvider extends ServiceProvider
 {
-   /**
+    /**
      * Register any application services.
      *
      * @return void
      */
     public function register()
     {
-        $this->app->singleton(SageSvg::class, function () {
-            return new SageSvg($this->config());
-        });
+        $this->app->singleton(SageSvg::class, fn () => new SageSvg($this->app->make('files')));
+        $this->app->alias(SageSvg::class, 'sage-svg');
     }
 
     /**
@@ -26,58 +25,30 @@ class SageSvgServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if ($this->app->bound('blade.compiler')) {
-            $this->directives();
-            $this->customDirectives();
-        }
-
         $this->publishes([
-            __DIR__ . '/../config/svg.php' => $this->app->configPath('svg.php')
+            __DIR__.'/../config/svg.php' => config_path('svg.php'),
         ]);
+
+        $this->mergeConfigFrom(__DIR__.'/../config/svg.php', 'svg');
+
+        $this->registerDirective();
+        $this->registerCustomDirectives();
     }
 
     /**
-     * Return the services config.
-     *
-     * @return array
+     * Register the `@svg` Blade directive.
      */
-    protected function config()
+    protected function registerDirective(): void
     {
-        return collect([
-            'path' => $this->app->publicPath()
-        ])
-        ->merge($this->app->config->get('svg', []))
-        ->all();
+        Blade::directive('svg', fn ($expression) => "<?php echo e(get_svg({$expression})); ?>");
     }
 
     /**
-     * Register Blade directives.
-     *
-     * @return void
+     * Register the custom Blade directives.
      */
-    protected function directives()
+    protected function registerCustomDirectives(): void
     {
-        if (class_exists('\BladeSvgSage\BladeSvgSage') || class_exists('\BladeSvg\SvgFactory')) {
-            return;
-        }
-
-        Blade::directive('svg', function ($expression) {
-            return "<?php echo e(get_svg($expression)); ?>";
-        });
-    }
-
-    /**
-     * Register custom Blade directives.
-     *
-     * @return void
-     */
-    protected function customDirectives()
-    {
-        if (class_exists('\BladeSvgSage\BladeSvgSage') || class_exists('\BladeSvg\SvgFactory')) {
-            return;
-        }
-
-        if (($directives = collect($this->app->config->get('svg.directives')))->isEmpty()) {
+        if (($directives = collect(config('svg.directives', [])))->isEmpty()) {
             return;
         }
 
@@ -91,7 +62,7 @@ class SageSvgServiceProvider extends ServiceProvider
                     str_replace("'", '', $expression->first())
                 ))->implode(',');
 
-                return "<?php echo e(get_svg($expression)); ?>";
+                return "<?php echo e(get_svg({$expression})); ?>";
             });
         });
     }

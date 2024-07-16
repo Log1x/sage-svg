@@ -7,9 +7,9 @@ return [
     | Path
     |--------------------------------------------------------------------------
     |
-    | This value is the default path used by SageSVG for finding SVG files.
-    | This path is then resolved internally if an absolute path is not being
-    | used.
+    | This value is the default path used by Sage SVG for finding SVG files
+    | when an absolute path is not specified. You may modify the path as
+    | needed but the default value should work for most applications.
     |
     */
 
@@ -66,4 +66,5 @@ return [
         // 'fa'     => 'fa.solid',
         // 'brands' => 'fa.brands',
     ],
+
 ];

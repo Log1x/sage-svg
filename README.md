@@ -1,15 +1,16 @@
 # Sage SVG
 
-[![Latest Stable Version](https://poser.pugx.org/log1x/sage-svg/v/stable)](https://packagist.org/packages/log1x/sage-svg)
-[![Total Downloads](https://poser.pugx.org/log1x/sage-svg/downloads)](https://packagist.org/packages/log1x/sage-svg)
-![Build Status](https://img.shields.io/github/actions/workflow/status/log1x/sage-svg/Main.yml?branch=master&style=flat-square)
+![Latest Stable Version](https://img.shields.io/packagist/v/log1x/sage-svg.svg?style=flat-square)
+![Total Downloads](https://img.shields.io/packagist/dt/log1x/sage-svg.svg?style=flat-square)
+![Build Status](https://img.shields.io/github/actions/workflow/status/log1x/sage-svg/main.yml?branch=master&style=flat-square)
 
 Sage SVG is a simple package for using inline SVGs in your Sage 10 projects.
 
 ## Requirements
 
-- [Sage](https://github.com/roots/sage) >= 10.0
-- [PHP](https://secure.php.net/manual/en/install.php) >= 7.4
+- [Sage](https://github.com/roots/sage) >= 10.x
+- [Acorn](https://github.com/roots/acorn) >= 4.x
+- [PHP](https://secure.php.net/manual/en/install.php) >= 8.1
 - [Composer](https://getcomposer.org/download/)
 
 ## Installation
@@ -59,15 +60,14 @@ $image = get_svg(
 );
 ```
 
-### App Container
+### Facade
 
-While it's easier to use the Helper function, if it not available or sane for your scenario, you can render your SVG using the initialized `SageSvg` instance from the app container.
+Another option for rendering an SVG is using the `SageSvg` Facade:
 
 ```php
-use Log1x\SageSvg\SageSvg;
-use function Roots\app;
+use Log1x\SageSvg\Facades\SageSvg;
 
-$image = app(SageSvg::class)->render('images.logo');
+$image = SageSvg::render('images.logo');
 ```
 
 ## Configuration
