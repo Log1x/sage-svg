@@ -93,7 +93,7 @@ class SageSvg
         foreach ($this->manifests as $key => $value) {
             $bundle = $value['bundles'] ?? null;
 
-            if (Str::endsWith($bundle, 'build/manifest.json')) {
+            if ($bundle && Str::endsWith($bundle, 'build/manifest.json')) {
                 try {
                     return Vite::content(Str::of($image)->ltrim('/')->start('resources/')->__toString());
                 } catch (Throwable) {
