@@ -28,7 +28,7 @@ class SageSvg
     /**
      * Render the SVG as HTML
      */
-    public function render(string $image, string|array $class = '', array $attrs = [], array $options = []): HtmlString
+    public function render(string|array $image, string|array $class = '', array $attrs = [], array $options = []): HtmlString
     {
         $options = collect([
             'idPrefix' => null,
